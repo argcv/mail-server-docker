@@ -16,7 +16,7 @@ command=/opt/postfix.sh
 [program:dovecot]
 command=/opt/dovecot.sh
 [program:opendkim]
-command=opendkim -f
+command=/opt/opendkim.sh
 EOF
 
 # [program:rsyslog]
@@ -26,6 +26,12 @@ EOF
 # config for postfix
 # ref: https://www.postfix.org/COMPATIBILITY_README.html
 postconf compatibility_level=3.6
+
+# for compatibility, create a dummy file
+if [ ! -f /usr/share/man/man5/mysql_table.5.gz ]; then
+  mkdir -p /usr/share/man/man5/
+  touch /usr/share/man/man5/mysql_table.5.gz
+fi
 
 cat >> /opt/postfix.sh <<EOF
 #!/bin/bash
@@ -63,6 +69,17 @@ chmod +x /opt/dovecot.sh
 # chown -R postfix /var/spool/postfix
 # chmod -R 755 /var/spool/postfix
 
+# config for opendkim
+cat >> /opt/opendkim.sh <<EOF
+#! /bin/bash
+
+set -e
+
+chown -R opendkim:opendkim /etc/opendkim/
+
+opendkim -f
+EOF
+chmod +x /opt/opendkim.sh
 
 # config for dovecot
 useradd vmail
