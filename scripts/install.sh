@@ -25,7 +25,8 @@ EOF
 
 # config for postfix
 # ref: https://www.postfix.org/COMPATIBILITY_README.html
-postconf compatibility_level=3.6
+# note: not actually required, consider to update /etc/postfix/main.cf directly
+# postconf compatibility_level=3.6
 
 # for compatibility, create a dummy file
 if [ ! -f /usr/share/man/man5/mysql_table.5.gz ]; then
