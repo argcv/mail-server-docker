@@ -23,6 +23,10 @@ EOF
 # command=/usr/sbin/rsyslogd -n
 
 
+# config for postfix
+# ref: https://www.postfix.org/COMPATIBILITY_README.html
+postconf compatibility_level=3.6
+
 cat >> /opt/postfix.sh <<EOF
 #!/bin/bash
 
